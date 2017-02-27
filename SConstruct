@@ -99,7 +99,7 @@ if SYSTEM == 'Darwin':
         env['CXX'] = 'g++-6'
 
         env['OMPI_CC'] = 'gcc-6'
-        env['OMPI_CXX'] = 'gcc-6'
+        env['OMPI_CXX'] = 'g++-6'
 
 else:
     env.Append(LIBPATH=['../extern/argtable-2.10/lib'])

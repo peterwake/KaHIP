@@ -24,3 +24,44 @@ Once you installed the packages, just type ./compile.sh. Once you did that you c
 ./deploy/kaffpa examples/delaunay_n15.graph --k 2 --preconfiguration=strong
 
 For a description of the graph format please have look into the manual.
+
+Install on Mac OS X
+=====
+
+- `brew reinstall gcc --without-multilib` (NB: this took almost 2 hours, I am now not 100% sure you need the --without-multilib option)
+- `brew install scons`
+- `brew install argtable`
+- `brew install open-mpi`
+
+(Provisional notes)
+The default compiler on Mac OS X is clang, which overrides the gcc compiler
+
+
+Footnote - Open MPI for OS X
+=====
+
+It looks like Open MPI works fine without having to do this.
+
+See notes at https://www.open-mpi.org/faq/?category=osx#not-using-osx-bundled-ompi
+
+[download and unzip the latest version of openmpi to a folder e.g.]
+```sh
+cd ~/ThirdPartyProjects/openmpi-2.0.2
+alias g++='gcc-6'
+alias gcc='gcc-6'
+./configure --prefix=/usr/local/bin/openmpi 2>&1 | tee config.out
+make -j 4 2>&1 | tee make.out
+sudo make install 2>&1 | tee install.out
+export PATH=/usr/local/bin/openmpi/bin:$PATH
+ompi_info
+export OMPI_CXX=gcc-6
+export OMPI_CC=gcc-6
+mpicxx
+```
+
+
+
+
+
+
+

@@ -57,7 +57,7 @@ def GetEnvironment():
   if not env['variant'] in ['optimized','optimized_output','debug']:
     print 'Illegal value for variant: %s' % env['variant']
     sys.exit(1)
-  
+
   if not env['program'] in ['kaffpa', 'kaffpaE', 'partition_to_vertex_separator','improve_vertex_separator','library','graphchecker','label_propagation','evaluator','node_separator']:
     print 'Illegal value for program: %s' % env['program']
     sys.exit(1)
@@ -78,14 +78,11 @@ env.Append(CPPPATH=['./lib/tools'])
 env.Append(CPPPATH=['./lib/partition'])
 env.Append(CPPPATH=['./lib/io'])
 env.Append(CPPPATH=['./lib/partition/uncoarsening/refinement/quotient_graph_refinement/flow_refinement/'])
-env.Append(LIBPATH=['../extern/argtable-2.10/lib'])
-env.Append(LIBPATH=['./extern/argtable-2.10/lib'])
 env.Append(CPPPATH=['../lib'])
 env.Append(CPPPATH=['../lib/tools'])
 env.Append(CPPPATH=['../lib/partition'])
 env.Append(CPPPATH=['../lib/io'])
 env.Append(CPPPATH=['../lib/partition/uncoarsening/refinement/quotient_graph_refinement/flow_refinement/'])
-env.Append(LIBPATH=['../../extern/argtable-2.10/lib'])
 env.Append(CPPPATH=['/usr/include/openmpi/'])
 
 conf = Configure(env)
@@ -98,13 +95,24 @@ if SYSTEM == 'Darwin':
         env.Append(LIBPATH=['/usr/local/lib/'])
         env.Append(LIBPATH=['/usr/local/lib/openmpi/'])
 
+        env['CC'] = 'gcc-6'
+        env['CXX'] = 'g++-6'
+
+        env['OMPI_CC'] = 'gcc-6'
+        env['OMPI_CXX'] = 'gcc-6'
+
+else:
+    env.Append(LIBPATH=['../extern/argtable-2.10/lib'])
+    env.Append(LIBPATH=['./extern/argtable-2.10/lib'])
+    env.Append(LIBPATH=['../../extern/argtable-2.10/lib'])
+
 #by D. Luxen
 #if not conf.CheckLibWithHeader('argtable2', 'argtable2.h', 'CXX'):
         #print "argtable library not found. Exiting"
         #Exit(-1)
-#if not conf.CheckCXXHeader('mpi.h'):
-        #print "openmpi header not found. Exiting"
-        #Exit(-1)
+if not conf.CheckCXXHeader('mpi.h'):
+        print "openmpi header not found. Exiting"
+        Exit(-1)
 #
 #
 env.Append(CXXFLAGS = '-fopenmp')
@@ -125,4 +133,3 @@ else:
 
 # Execute the SConscript.
 SConscript('SConscript', exports=['env'],variant_dir=env['variant'], duplicate=False)
-

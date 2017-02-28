@@ -57,7 +57,7 @@ def GetEnvironment():
   if not env['variant'] in ['optimized','optimized_output','debug']:
     print 'Illegal value for variant: %s' % env['variant']
     sys.exit(1)
-  
+
   if not env['program'] in ['kaffpa', 'kaffpaE', 'partition_to_vertex_separator','improve_vertex_separator','library','graphchecker','label_propagation','evaluator','node_separator']:
     print 'Illegal value for program: %s' % env['program']
     sys.exit(1)
@@ -96,6 +96,12 @@ if SYSTEM == 'Darwin':
         env.Append(LIBPATH=['/usr/local/lib/openmpi/'])
         env.Append(LIBPATH=['../extern/argtable-2.10/maclib'])
         env.Append(LIBPATH=['./extern/argtable-2.10/maclib'])
+
+        env['CC'] = 'gcc-6'
+        env['CXX'] = 'g++-6'
+
+        env['OMPI_CC'] = 'gcc-6'
+        env['OMPI_CXX'] = 'g++-6'
 else:
         env.Append(LIBPATH=['../extern/argtable-2.10/lib'])
         env.Append(LIBPATH=['./extern/argtable-2.10/lib'])
@@ -128,4 +134,3 @@ else:
 
 # Execute the SConscript.
 SConscript('SConscript', exports=['env'],variant_dir=env['variant'], duplicate=False)
-

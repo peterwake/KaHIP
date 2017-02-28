@@ -147,7 +147,7 @@ if env['program'] == 'kaffpaE':
         env.Append(CCFLAGS  = '-DMODE_KAFFPAE')
 
         if SYSTEM == 'Darwin':
-                env['CXX'] = 'openmpicxx'
+                env['CXX'] = 'mpicxx'
         else:
                 env['CXX'] = 'mpicxx'
         env.Program('kaffpaE', ['app/kaffpaE.cpp']+libkaffpa_files+libkaffpa_parallel_async, LIBS=['libargtable2','gomp'])
